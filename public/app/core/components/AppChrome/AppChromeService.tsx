@@ -70,7 +70,8 @@ export class AppChromeService {
     Object.assign(newState, update);
 
     // KioskMode overrides chromeless state
-    newState.chromeless = newState.kioskMode === KioskMode.Full || this.currentRoute?.chromeless;
+    // newState.chromeless = newState.kioskMode === KioskMode.Full || this.currentRoute?.chromeless;
+    newState.chromeless = newState.kioskMode === KioskMode.Full || newState.kioskMode === KioskMode.Var || this.currentRoute?.chromeless;
 
     if (!this.ignoreStateUpdate(newState, current)) {
       this.state.next(newState);
@@ -131,6 +132,10 @@ export class AppChromeService {
   };
 
   public exitKioskMode() {
+    const { kioskMode } = this.state.getValue();
+    if (kioskMode === KioskMode.Var){
+      return
+    }
     this.update({ kioskMode: undefined });
     locationService.partial({ kiosk: null });
   }
@@ -143,6 +148,8 @@ export class AppChromeService {
       case '1':
       case true:
         this.update({ kioskMode: KioskMode.Full });
+      case 'var':
+        this.update({ kioskMode: KioskMode.Var });
     }
   }
 
@@ -152,6 +159,8 @@ export class AppChromeService {
         return 'tv';
       case KioskMode.Full:
         return true;
+      case KioskMode.Var:
+        return 'var';
       default:
         return null;
     }
