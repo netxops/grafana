@@ -1,0 +1,158 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 6,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "b5e44560-45ac-4d1e-a20b-9d51f6e1ea84"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.0-pre",
+      "targets": [
+        {
+          "dataset": "mysql",
+          "datasource": {
+            "type": "mysql",
+            "uid": "b5e44560-45ac-4d1e-a20b-9d51f6e1ea84"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select dev.hostname 设备名, dev.in_band_ip 带内管理ip,s.name 站点, r.name 机柜 \r\nfrom device dev\r\ninner join device_to_tenant dt on dt.device_code = dev.code\r\ninner join catalog ca on ca.code = dev.catalog_code\r\ninner join rack r on r.code = dev.rack_code\r\ninner join site s on s.code = dev.site_code\r\nwhere ca.name = 'switch' and dt.tenant_name = '$Tenant' \r\norder by dev.in_band_ip, dev.name",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "timeFrom": "124h",
+      "title": "交换机列表",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "美兰湖",
+          "value": "美兰湖"
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "b5e44560-45ac-4d1e-a20b-9d51f6e1ea84"
+        },
+        "definition": "select name from tenant order by name desc",
+        "hide": 0,
+        "includeAll": false,
+        "label": "学校",
+        "multi": false,
+        "name": "Tenant",
+        "options": [],
+        "query": "select name from tenant order by name desc",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "交换机列表",
+  "uid": "f4834b5c-ae3a-469b-8d8e-7700864175e2",
+  "version": 2,
+  "weekStart": ""
+}
