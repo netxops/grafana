@@ -555,6 +555,8 @@ export class PanelStateWrapper extends PureComponent<Props, State> {
       </div>
     );
 
+    const isAdmin = config.bootData.user.isGrafanaAdmin;
+
     return (
       <PanelChrome
         width={width}
@@ -565,7 +567,8 @@ export class PanelStateWrapper extends PureComponent<Props, State> {
         statusMessageOnClick={panelChromeProps.onOpenErrorInspect}
         description={panelChromeProps.description}
         titleItems={panelChromeProps.titleItems}
-        menu={this.props.hideMenu ? undefined : menu}
+        // menu={this.props.hideMenu ? undefined : menu}
+        menu={isAdmin ? menu : undefined}
         dragClass={panelChromeProps.dragClass}
         dragClassCancel="grid-drag-cancel"
         padding={panelChromeProps.padding}
